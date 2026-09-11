@@ -6,9 +6,22 @@ window.SITE_CONTENT = {
     body: ""
   },
   audio: {
-    message: { title: "语音贺卡", src: "assets/audio/message.mp3" },
     song: { title: "", src: "assets/audio/song.mp3" }
   },
+  // 九个人的录音；姓名与寄语默认留空，仅填写真实内容。
+  voices: [
+    { name: "", note: "", src: "assets/audio/voices/01.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/02.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/03.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/04.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/05.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/06.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/07.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/08.mp3" },
+    { name: "", note: "", src: "assets/audio/voices/09.mp3" }
+  ],
+  // 照片不设张数上限；每批追加 24 张，原图按需懒加载。
+  photoBatchSize: 24,
   // 增删对象即可增减照片；alt 与 caption 仅填写你提供的真实内容。
   photos: [
     { src: "assets/photos/01.jpg", alt: "", caption: "" },
@@ -19,6 +32,7 @@ window.SITE_CONTENT = {
     { src: "assets/photos/06.jpg", alt: "", caption: "" }
   ],
   labels: {
+    home: "首页", album: "相册", openAlbum: "打开相册",
     message: "语音贺卡", music: "音乐", photos: "照片",
     play: "播放", pause: "暂停", replay: "重新播放", retry: "重试",
     progress: "播放进度", unknownTime: "--:--",
@@ -27,6 +41,9 @@ window.SITE_CONTENT = {
     blockedAudio: "无法播放，请再次点击播放",
     seekFailed: "暂时无法跳转，请稍后重试",
     unavailablePhoto: "照片暂不可用", noPhotos: "暂无照片",
+    openVoice: "打开语音贺卡", closeVoice: "关闭语音贺卡",
+    previousVoice: "上一份", nextVoice: "下一份", noVoices: "暂无录音",
+    loadMore: "加载更多照片",
     viewPhoto: "查看照片", close: "关闭图片查看器",
     previous: "上一张", next: "下一张", skip: "跳至内容"
   }

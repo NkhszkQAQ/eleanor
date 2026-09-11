@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3eb">
+  <title>语音贺卡 · 音乐 · 照片</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="content.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body data-page="voices">
+  <a class="skip-link" href="#main">跳至内容</a>
+  <header class="site-header">
+    <a class="site-mark" href="index.html" aria-label="首页"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h13v18H5zM11 4h16v19h-5M9 19l3-4 3 3"/></svg></a>
+    <nav aria-label="页面"><a href="index.html" data-nav="home">首页</a><span aria-hidden="true">/</span><a href="voices.html" data-nav="voices">语音贺卡</a><span aria-hidden="true">/</span><a href="photos.html" data-nav="photos">相册</a></nav>
+  </header>
+  <main id="main" class="page voice-page" tabindex="-1">
+    <div class="voice-heading"><div><span class="page-index" aria-hidden="true">02 / 02</span><h1 data-label="message">语音贺卡</h1></div><span id="voice-count" class="voice-total" aria-hidden="true">09</span></div>
+    <div id="voice-grid" class="voice-grid"></div>
+    <p id="voices-empty" class="empty-state" hidden></p>
+    <footer class="voice-footer"><a class="back-link" href="index.html"><span aria-hidden="true">←</span><span data-label="home">首页</span></a><div id="music-player" class="music-mini"></div></footer>
+    <noscript>请启用 JavaScript 以使用语音贺卡。</noscript>
+  </main>
+  <dialog id="letter-dialog" class="letter-dialog" aria-labelledby="letter-title">
+    <div class="letter-sheet">
+      <div class="letter-toolbar"><span id="letter-number" class="page-index"></span><button id="letter-close" class="icon-button" type="button" aria-label="关闭语音贺卡" autofocus></button></div>
+      <span class="letter-emblem" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v12H3zM3 8l9 7 9-7"/></svg></span>
+      <h2 id="letter-title">语音贺卡</h2>
+      <p id="letter-note" class="letter-note" hidden></p>
+      <div id="voice-players"></div>
+      <div class="letter-navigation"><button id="letter-prev" class="text-button" type="button">上一份</button><p id="letter-counter" aria-live="polite" aria-atomic="true"></p><button id="letter-next" class="text-button" type="button">下一份</button></div>
+    </div>
+  </dialog>
+</body>
+</html>
