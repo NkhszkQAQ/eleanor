@@ -1,11 +1,16 @@
 # 开场装饰图案
 
-- `parcel-approved.jpg`：用户确认的生成预览，细缎带、小结、长尾、深酒红色，奶油白包装纸；不是个人照片。
-- `parcel-paper.jpg`：基于确认图仅移除丝带生成的对齐底图，供展开动画使用。
-- 两张图均由内置 imagegen 生成，1536×1024，使用 sips 转为 JPEG（质量 88）以控制网页体积；未改变确认图构图。主图 167,140 字节，底图 138,487 字节。
-- 页面在原图上通过 SVG viewBox 显示包裹，通过裁切、色彩透明蒙版和 CSS 位移／淡出实现分层动画；静止时展示完整确认图。
-- 未包含网络参考图或此前 Microsoft Fluent UI Emoji 图形。运行时无需外部服务。
+当前素材由内置 imagegen 编辑此前用户确认的图案，属于网站装饰，不是个人照片。
 
-## 底图生成使用的最终提示词
+- `parcel-sharp.webp`：保持细缎带、小结、长尾及深酒红色，增强边缘、缎带与纸张细节。1536×1024，946,126 字节。
+- `parcel-paper-sharp.webp`：由增强后的图仅移除丝带生成，包裹保持完整。1536×1024，884,466 字节。
+- 生成 PNG 以 sharp 转为无损 WebP；已比较解码后的 RGB 数据，像素完全相同。没有放大插值、额外锐化滤镜或有损 JPEG 编码。请求过更大尺寸，但实际输出仍为 1536×1024，不宣称是 3K／4K 图片。
+- SVG 裁切与色彩蒙版仅用来保留既有丝带移开动作；包装纸始终是完整的一层，随后整个开场淡出。首次显示时才请求图案，无外部运行时资源。
 
-Precise object removal edit for an animation background plate. In the supplied approved gift image, remove ONLY all dark burgundy ribbon: both loops, central knot, both long tails, horizontal and vertical wrapping bands, and the shadows cast by the ribbon. Inpaint the ivory paper and cream backdrop underneath. Preserve EXACTLY the gift package's size, angle, position, corners, folds, paper texture, surrounding background, lighting and the package's own shadow. Do not move or rotate the parcel. Keep the same 1536 by 1024 composition. The result must be the exact same closed ivory-paper parcel without any ribbon, on the exact same cream background. No text, no additional objects, no holes, do not open the paper. This will be aligned underneath the original image for a ribbon-removal and paper-unwrapping animation, so composition registration matters.
+## 主图最终提示词（内置 imagegen）
+
+Use case: precise-object-edit. Asset type: high-resolution website opening artwork. Improve ONLY the clarity and fine detail of the supplied approved ivory parcel and deep burgundy thin satin bow. Keep the EXACT same composition, scale, placement, camera angle, lighting, cream background, silhouette, knot position, loop outlines, two long tail contours, ribbon wrapping bands and colors. This image must register spatially with the input for an existing ribbon animation. Make the edges of the satin ribbon crisp, fine satin weave visible, paper folds clean and finely textured; everything on the parcel in focus, without artificial halos, grain, painted softness or oversharpening. Preserve the soft natural cast shadows in the background. Output at 3072 by 2048 pixels if supported, highest practical detail. No new objects, no text, no watermark, no redesign, no crop or zoom. The purpose is sharper viewing on high-density mobile and desktop screens, while preserving the approved design.
+
+## 无丝带图最终提示词（内置 imagegen）
+
+Use case: precise-object-edit. Create the aligned background plate for this website parcel animation. Remove ONLY all burgundy ribbon, bow knot, loops, wrapping bands, long tails and ribbon cast shadows. Reconstruct ivory paper beneath. Keep EXACTLY the same framing, pixel positions, angle, parcel contour, corners, folds, crisp paper texture, soft light, cast shadow and cream background. Keep the parcel CLOSED and INTACT, do not split or unfold it. No text, new objects or changes to the parcel. Preserve sharp detail and original image dimensions. This will be underlaid behind the original, so exact spatial alignment is essential.

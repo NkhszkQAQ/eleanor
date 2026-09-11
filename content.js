@@ -9,7 +9,7 @@ window.SITE_CONTENT = {
   // 同一浏览器仅首次展示；开场文案留空，等确认后填写。
   opening: {
     enabled: true, title: "", body: "", reserveSpace: true,
-    artwork: { image: "assets/artwork/parcel-approved.jpg", paper: "assets/artwork/parcel-paper.jpg" }
+    artwork: { image: "assets/artwork/parcel-sharp.webp", paper: "assets/artwork/parcel-paper-sharp.webp" }
   },
   audio: {
     song: { title: "", src: "assets/audio/song.mp3" }
