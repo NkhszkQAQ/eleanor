@@ -1,8 +1,8 @@
 /* 只需编辑此文件；普通脚本使双击 index.html 也可使用，无需构建。 */
 window.SITE_CONTENT = {
-  pageTitle: "语音贺卡 · 音乐 · 照片",
+  pageTitle: "Eleanor",
   hero: {
-    title: "",
+    title: "Eleanor",
     body: ""
   },
   audio: {

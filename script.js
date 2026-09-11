@@ -26,7 +26,8 @@
 
   const pageType = document.body.dataset.page;
   const pageLabels = { home: labels.home, voices: labels.message, photos: labels.album };
-  document.title = pageType === "home" ? text(config.pageTitle) || labels.home : pageLabels[pageType];
+  const siteName = text(config.pageTitle);
+  document.title = pageType === "home" ? siteName || labels.home : [pageLabels[pageType], siteName].filter(Boolean).join(" · ");
   $(".site-mark").setAttribute("aria-label", labels.home);
   $(".skip-link").textContent = labels.skip;
   document.querySelectorAll("[data-label]").forEach((node) => { node.textContent = labels[node.dataset.label]; });
