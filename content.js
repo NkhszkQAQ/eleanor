@@ -14,7 +14,7 @@ window.SITE_CONTENT = {
   audio: {
     song: {
       title: "天使にふれたよ!", credit: "椎名モンブラン",
-      src: "assets/audio/song-stream.mp3", volume: 0.2, playAfterOpening: true,
+      src: "assets/audio/song-stream.mp3", volume: 0.2, autoplay: true, playAfterOpening: true,
       // Measured from the supplied MP3; update or remove when replacing the file.
       metadata: { src: "assets/audio/song-stream.mp3", duration: 182.073469 }
     }

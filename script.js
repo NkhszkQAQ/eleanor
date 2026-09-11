@@ -155,7 +155,7 @@
         else if (audio.readyState < 3) fail(labels.slowAudio);
       }, 15000);
     }
-    const player = { audio, stop, card, play: start, reveal() {
+    const player = { audio, stop, card, play: start, isPlaying: () => !audio.paused && !audio.ended && (!output || output.context.state === "running"), reveal() {
       if (activePlayer !== player || failed) return;
       // Playback was unlocked silently by the opening gesture; let the song start here.
       if (silent) { try { audio.currentTime = 0; } catch { /* Metadata may still be loading. */ } }
@@ -305,6 +305,29 @@
   if (pageType === "voices") setupVoices();
   window.addEventListener("pagehide", () => { players.forEach((player) => player.stop()); openModals.forEach((item) => item.close()); });
 
+  // Attempt audible playback on every document visit. Browser policy still wins.
+  if (config.audio?.song?.autoplay) setupAutoplay();
+  function setupAutoplay() {
+    let armed = true;
+    function cancel() {
+      armed = false;
+      document.removeEventListener("click", activate, true);
+      document.removeEventListener("keydown", activate, true);
+    }
+    function activate(event) {
+      if (!event.isTrusted || (event.type === "keydown" && !["Enter", " "].includes(event.key))) return;
+      if (!armed || document.hidden) return;
+      cancel();
+      // Explicit playback controls own the gesture; never turn a pause into play.
+      if (event.target.closest?.(".player")) return;
+      if (!songPlayer.isPlaying() && !songPlayer.audio.error && (!activePlayer || activePlayer === songPlayer)) songPlayer.play();
+    }
+    document.addEventListener("click", activate, true);
+    document.addEventListener("keydown", activate, true);
+    window.addEventListener("pagehide", cancel, { once: true });
+    if (!document.hidden) songPlayer.play().then(() => { if (songPlayer.isPlaying()) cancel(); });
+  }
+
   function setupVoices() {
     $("#voice-count").textContent = number(voices.length);
     $("#voices-empty").textContent = labels.noVoices;
@@ -444,7 +467,7 @@
       const immediate = reduced.matches || event.detail === 0;
       if (!immediate && !artReady) return;
       opening = true;
-      if (config.audio?.song?.playAfterOpening) {
+      if (config.audio?.song?.playAfterOpening && !config.audio?.song?.autoplay) {
         musicPrepared = true;
         songPlayer.play({ silent: true });
       }
