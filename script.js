@@ -308,7 +308,8 @@
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     // Persist first-visit state per site directory, including Pages subpaths.
     const key = `parcel-opened:v1:${new URL(".", window.location.href).pathname}`;
-    let opening = false, finishTimer = null;
+    let opening = false, finishTimer = null, loadTimer = null;
+    let artReady = false, paperReady = false;
     const title = text(config.opening.title), body = text(config.opening.body);
     $("#parcel-heading").textContent = title;
     $("#parcel-heading").hidden = !title;
@@ -324,6 +325,7 @@
     openButton.setAttribute("aria-label", labels.openParcel);
     const controller = modal(dialog, $("#parcel-skip"), () => {
       clearTimeout(finishTimer);
+      clearTimeout(loadTimer);
       opening = false;
       dialog.classList.remove("is-unwrapping");
       openButton.removeAttribute("aria-disabled");
@@ -331,15 +333,44 @@
       remember();
     }, () => {});
     openModals.push(controller);
+    function loadArtwork(src) {
+      return new Promise((resolve, reject) => {
+        if (!text(src)) { reject(new Error("Missing artwork path")); return; }
+        const image = new Image();
+        image.onload = () => resolve(src);
+        image.onerror = reject;
+        image.src = src;
+      });
+    }
     function show(source) {
       controller.open(source);
       openButton.focus({ preventScroll: true });
+      hint.textContent = labels.loading;
+      openButton.setAttribute("aria-disabled", "true");
+      // Request artwork only when the first-visit introduction is actually shown.
+      loadTimer = setTimeout(controller.close, 12000);
+      loadArtwork(config.opening.artwork?.image).then((src) => {
+        if (!dialog.open) return;
+        clearTimeout(loadTimer);
+        $("#parcel-photo").setAttribute("href", src);
+        artReady = true;
+        dialog.classList.add("art-ready");
+        openButton.removeAttribute("aria-disabled");
+        hint.textContent = labels.openParcel;
+      }).catch(() => { if (dialog.open) controller.close(); });
+      loadArtwork(config.opening.artwork?.paper).then((src) => {
+        if (!dialog.open) return;
+        $("#parcel-paper-photo").setAttribute("href", src);
+        paperReady = true;
+      }).catch(() => { /* The approved image alone can still reveal the home. */ });
     }
     openButton.addEventListener("click", (event) => {
       if (opening) return;
       // Keyboard/assistive activation and reduced motion reveal the home instantly.
       if (reduced.matches || event.detail === 0) { controller.close(); return; }
+      if (!artReady) return;
       opening = true;
+      dialog.classList.toggle("is-simple-opening", !paperReady);
       openButton.setAttribute("aria-disabled", "true");
       hint.textContent = labels.openingParcel;
       dialog.classList.add("is-unwrapping");

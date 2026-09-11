@@ -7,7 +7,10 @@ window.SITE_CONTENT = {
     reserveSpace: true
   },
   // 同一浏览器仅首次展示；开场文案留空，等确认后填写。
-  opening: { enabled: true, title: "", body: "", reserveSpace: true },
+  opening: {
+    enabled: true, title: "", body: "", reserveSpace: true,
+    artwork: { image: "assets/artwork/parcel-approved.jpg", paper: "assets/artwork/parcel-paper.jpg" }
+  },
   audio: {
     song: { title: "", src: "assets/audio/song.mp3" }
   },

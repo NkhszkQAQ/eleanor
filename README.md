@@ -48,6 +48,8 @@ python3 -m http.server 8080 --bind 127.0.0.1
 
 本轮重设计的实际执行结果见 `VERIFICATION.md`。推荐使用支持原生 `<dialog>` 的现代 Chrome、Edge、Safari 或 Firefox。最终个人素材替换后应重新检查；浏览器响应式测试不等同于真机验收。
 
-## 蝴蝶结来源
+## 开场图案
 
-开场蝴蝶结采用 Microsoft Fluent UI Emoji 的 Ribbon SVG（MIT），配色与分层解开动作已适配本网站。源码内嵌在 HTML 中，无外部图标服务或运行时依赖。来源及修改说明见 `THIRD_PARTY_NOTICES.md`，许可证见 `licenses/fluentui-emoji-MIT.txt`。
+开场使用已确认的细丝带、小结与长尾造型，配深酒红色及奶油白包装纸。两张本地 JPEG 合计约 300 KB，只在需要展示首次开场时加载；动画通过 SVG 分层与 CSS 位移、淡出实现，无第三方运行时依赖。`opening.artwork.image` 与 `opening.artwork.paper` 配置主图及无丝带图层，素材来源见 `assets/artwork/README.md`。分层坐标与当前构图对应，更换构图时需同步调整 SVG 裁切区域。
+
+主图加载失败或等待超过 12 秒会直接进入首页；纸张图层缺失则使用简化淡出。加载期间仍可跳过。已访问者不会再次下载开场图案，也不会因为本次视觉更新而被要求再次拆包。
