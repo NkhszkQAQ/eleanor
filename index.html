@@ -10,38 +10,36 @@
   <script src="content.js" defer></script>
   <script src="script.js" defer></script>
 </head>
-<body>
+<body data-page="photos">
   <a class="skip-link" href="#main">跳至内容</a>
+  <header class="site-header">
+    <a class="site-mark" href="index.html" aria-label="照片"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h13v18H5zM11 4h16v19h-5M9 19l3-4 3 3"/></svg></a>
+    <nav aria-label="页面"><a href="index.html" data-nav="photos">照片</a><span aria-hidden="true">/</span><a href="voices.html" data-nav="voices">语音贺卡</a></nav>
+  </header>
   <main id="main" class="page" tabindex="-1">
-    <header id="hero" class="hero" hidden>
-      <h1 id="hero-title" hidden></h1>
-      <p id="hero-body" hidden></p>
-    </header>
-    <div id="players" class="players"></div>
+    <header id="hero" class="hero" hidden><h1 id="hero-title" hidden></h1><p id="hero-body" hidden></p></header>
+    <section class="gift-intro" aria-label="音乐与语音贺卡">
+      <a href="voices.html" class="letter-entry" aria-label="打开语音贺卡">
+        <span class="entry-paper" aria-hidden="true"><span class="paper-lines"></span></span>
+        <span class="entry-envelope" aria-hidden="true"><span class="envelope-fold"></span><span class="wax-seal" id="voice-entry-count">09</span></span>
+        <span class="entry-label"><span data-label="message">语音贺卡</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
+      </a>
+      <div class="record-player"><div id="music-player"></div></div>
+    </section>
     <section id="photos" class="photos" aria-labelledby="photos-heading">
-      <div class="section-heading">
-        <h2 id="photos-heading">照片</h2>
-        <span id="photo-count" class="section-count" aria-hidden="true"></span>
-      </div>
+      <div class="section-heading"><h2 id="photos-heading">照片</h2><span id="photo-count" class="section-count" aria-hidden="true"></span><span class="heading-line" aria-hidden="true"></span></div>
       <div id="photo-grid" class="photo-grid"></div>
       <p id="photos-empty" class="empty-state" hidden></p>
+      <div class="gallery-bottom"><p id="gallery-progress" class="gallery-progress" role="status"></p><button id="load-more" type="button" class="text-button" hidden>加载更多照片</button></div>
     </section>
+    <footer class="page-footer"><a href="voices.html"><span data-label="message">语音贺卡</span><span aria-hidden="true">↗</span></a></footer>
     <noscript>请启用 JavaScript 以使用播放器和照片查看器。</noscript>
   </main>
   <dialog id="viewer" class="viewer" aria-labelledby="viewer-title">
     <div class="viewer-panel">
-      <div class="viewer-toolbar">
-        <h2 id="viewer-title">照片</h2>
-        <button id="viewer-close" class="icon-button" type="button" aria-label="关闭图片查看器" autofocus></button>
-      </div>
-      <div id="viewer-stage" class="viewer-stage" aria-busy="false">
-        <p id="viewer-status" role="status"></p>
-      </div>
-      <div class="viewer-navigation">
-        <button id="viewer-prev" class="icon-button" type="button" aria-label="上一张"></button>
-        <p id="viewer-counter" aria-live="polite" aria-atomic="true"></p>
-        <button id="viewer-next" class="icon-button" type="button" aria-label="下一张"></button>
-      </div>
+      <div class="viewer-toolbar"><h2 id="viewer-title">照片</h2><button id="viewer-close" class="icon-button" type="button" aria-label="关闭图片查看器" autofocus></button></div>
+      <div id="viewer-stage" class="viewer-stage" aria-busy="false"><p id="viewer-status" role="status"></p></div>
+      <div class="viewer-navigation"><button id="viewer-prev" class="icon-button" type="button" aria-label="上一张"></button><p id="viewer-counter" aria-live="polite" aria-atomic="true"></p><button id="viewer-next" class="icon-button" type="button" aria-label="下一张"></button></div>
       <p id="viewer-caption" class="viewer-caption" hidden></p>
     </div>
   </dialog>
