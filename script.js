@@ -503,9 +503,14 @@
         // Optional dimensions reserve the exact aspect ratio before loading.
         if (Number(photo.width) > 0 && Number(photo.height) > 0) window.style.aspectRatio = `${Number(photo.width)} / ${Number(photo.height)}`;
         img.addEventListener("load", () => { placeholder.hidden = true; button.classList.add("is-loaded"); });
-        img.addEventListener("error", () => { img.hidden = true; $("span", placeholder).textContent = labels.unavailablePhoto; });
+        // A missing preview falls back once to the untouched original.
+        let triedOriginal = !text(photo.preview);
+        img.addEventListener("error", () => {
+          if (!triedOriginal && text(photo.src)) { triedOriginal = true; img.src = photo.src; return; }
+          img.hidden = true; $("span", placeholder).textContent = labels.unavailablePhoto;
+        });
         window.prepend(img);
-        if (text(photo.src)) img.src = photo.src;
+        if (text(photo.preview) || text(photo.src)) img.src = text(photo.preview) || photo.src;
         else { img.hidden = true; $("span", placeholder).textContent = labels.unavailablePhoto; }
         button.addEventListener("click", () => { viewerControl.open(button); showPhoto(index); });
         figure.append(button);

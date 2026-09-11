@@ -3,3 +3,5 @@
 在 ../../content.js 的 audio.song 中调整 volume（当前 0.2）和 playAfterOpening（当前 true）。页面歌名为文件名中的「天使にふれたよ!」，署名为「椎名モンブラン」。文件 ID3 未包含标题或演唱者标签，所以不把文件名署名声称为已核实的演唱者信息。ffprobe 测得时长为 182.07345 秒（显示 3:02），在 audio.song.metadata 中保存；替换音频时同步更新或移除该信息。
 九个人的真实录音放入 voices/01.mp3 至 voices/09.mp3；姓名与寄语在 voices 数组填写。录音和照片尚未提供。
 本目录不包含测试录音或伪装成媒体的空文件。请使用真正的 MP3 编码，改扩展名不会转换格式。
+
+加速版本：song-stream.mp3 是从原始 song.mp3 生成的 96 kbps MP3 播放副本，2,185,552 字节、182.073469 秒；当前 content.js 指向该副本。song.mp3 原文件保留不变。播放副本为有损编码。更换音频请同步配置 src 和 metadata。
