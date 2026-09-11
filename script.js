@@ -375,7 +375,7 @@
       hint.textContent = labels.openingParcel;
       dialog.classList.add("is-unwrapping");
       // The bounded timer also completes when transition events aren't delivered.
-      finishTimer = setTimeout(controller.close, 1450);
+      finishTimer = setTimeout(controller.close, 1150);
     });
     reduced.addEventListener("change", () => { if (opening && reduced.matches) controller.close(); });
     document.addEventListener("visibilitychange", () => {
