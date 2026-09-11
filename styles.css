@@ -315,3 +315,8 @@ html:not([data-input="keyboard"]) .parcel-open:focus-visible { outline: none; }
 .opening-copy.reserved-copy { min-height: clamp(3rem, 9vw, 5rem); }
 .opening-copy p { margin-top: 1rem; color: var(--muted); white-space: pre-line; overflow-wrap: anywhere; }
 @media (max-height: 500px) { .opening-copy.reserved-copy { min-height: 1rem; } }
+
+/* The full image replaces the cached preview in the same viewer area. */
+.viewer-stage .viewer-preview { grid-area: 1 / 1; }
+.viewer-stage .viewer-original { grid-area: 1 / 1; }
+.viewer-stage #viewer-status { position: relative; inset: auto; margin-bottom: .5rem; grid-area: 1 / 1; z-index: 1; align-self: end; justify-self: center; padding: .3rem .7rem; background: #29251fcc; border-radius: 4px; }

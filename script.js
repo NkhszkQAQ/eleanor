@@ -502,6 +502,18 @@
     // A bounded batch size controls work per interaction, never the photo count.
     const batch = Math.min(100, Math.max(1, Math.floor(Number(config.photoBatchSize) || 24)));
     let rendered = 0;
+    const pendingPhotos = new WeakMap();
+    // Native lazy loading may fetch several screens at once on slow connections.
+    // Limit source assignment to nearby cards so the visible photos get bandwidth first.
+    const imageObserver = typeof window.IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        pendingPhotos.get(entry.target)?.(entry.boundingClientRect.top < window.innerHeight);
+        pendingPhotos.delete(entry.target);
+        imageObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: "160px" }) : null;
+    const previewSizes = "(max-width: 650px) calc(100vw - 6rem), (max-width: 900px) calc((100vw - 12rem) / 2), (max-width: 1184px) calc((100vw - 17rem) / 3), 315px";
     function appendBatch(manual = false) {
       const firstNew = rendered;
       const end = Math.min(photos.length, rendered + batch);
@@ -526,15 +538,28 @@
         // Optional dimensions reserve the exact aspect ratio before loading.
         if (Number(photo.width) > 0 && Number(photo.height) > 0) window.style.aspectRatio = `${Number(photo.width)} / ${Number(photo.height)}`;
         img.addEventListener("load", () => { placeholder.hidden = true; button.classList.add("is-loaded"); });
-        // A missing preview falls back once to the untouched original.
+        const picture = document.createElement("picture");
+        const avif = text(photo.previewAvif);
+        const source = avif ? document.createElement("source") : null;
+        if (source) { source.type = "image/avif"; source.sizes = previewSizes; picture.append(source); }
+        picture.append(img);
         let triedOriginal = !text(photo.preview);
         img.addEventListener("error", () => {
+          // A supported but missing AVIF also needs an explicit WebP fallback.
+          if (source?.parentNode) { source.remove(); img.src = text(photo.preview) || photo.src; return; }
           if (!triedOriginal && text(photo.src)) { triedOriginal = true; img.src = photo.src; return; }
           img.hidden = true; $("span", placeholder).textContent = labels.unavailablePhoto;
         });
-        window.prepend(img);
-        if (text(photo.preview) || text(photo.src)) img.src = text(photo.preview) || photo.src;
-        else { img.hidden = true; $("span", placeholder).textContent = labels.unavailablePhoto; }
+        window.prepend(picture);
+        const load = (visible = false) => {
+          if (imageObserver) img.loading = "eager";
+          img.fetchPriority = visible ? "high" : "low";
+          if (source) source.srcset = avif;
+          if (text(photo.preview) || text(photo.src)) img.src = text(photo.preview) || photo.src;
+          else { img.hidden = true; $("span", placeholder).textContent = labels.unavailablePhoto; }
+        };
+        if (imageObserver) { pendingPhotos.set(button, load); imageObserver.observe(button); }
+        else load();
         button.addEventListener("click", () => { viewerControl.open(button); showPhoto(index); });
         figure.append(button);
         if (text(photo.caption)) { const caption = document.createElement("figcaption"); caption.textContent = photo.caption; figure.append(caption); }
@@ -558,13 +583,14 @@
     let current = 0, request = 0;
     $("#viewer-title").textContent = labels.photos;
     [[close, "close", labels.close], [previous, "previous", labels.previous], [next, "next", labels.next]].forEach(([button, name, label]) => { button.innerHTML = icon(name); button.setAttribute("aria-label", label); });
-    const viewerControl = modal(viewer, close, () => { request++; $("img", stage)?.remove(); }, (direction) => showPhoto(current + direction));
+    const clearStage = () => stage.querySelectorAll("img").forEach((img) => img.remove());
+    const viewerControl = modal(viewer, close, () => { request++; clearStage(); }, (direction) => showPhoto(current + direction));
     openModals.push(viewerControl);
     function showPhoto(index) {
       if (!photos.length) return;
       current = (index + photos.length) % photos.length;
       const photo = photos[current], attempt = ++request;
-      $("img", stage)?.remove();
+      clearStage();
       status.hidden = false;
       status.textContent = labels.loading;
       stage.setAttribute("aria-busy", "true");
@@ -572,12 +598,27 @@
       $("#viewer-caption").textContent = text(photo.caption);
       $("#viewer-caption").hidden = !text(photo.caption);
       previous.disabled = next.disabled = photos.length < 2;
+      // Reuse the card preview immediately while the untouched original downloads.
+      const cardImage = grid.children[current]?.querySelector("img");
+      const previewSrc = cardImage?.complete && cardImage.naturalWidth ? cardImage.currentSrc : text(photo.preview);
+      let originalFailed = false;
+      const preview = new Image();
+      preview.className = "viewer-preview";
+      preview.alt = "";
+      preview.setAttribute("aria-hidden", "true");
+      preview.hidden = true;
+      preview.decoding = "async";
+      preview.onload = () => { if (attempt === request && viewer.open && (stage.getAttribute("aria-busy") === "true" || originalFailed)) { preview.hidden = false; status.textContent = originalFailed ? (labels.unavailableOriginal || labels.unavailablePhoto) : (labels.loadingOriginal || labels.loading); } };
+      preview.onerror = () => preview.remove();
+      if (previewSrc) { stage.append(preview); preview.src = previewSrc; }
       const img = new Image();
+      img.className = "viewer-original";
+      img.fetchPriority = "high";
       img.alt = text(photo.alt) || `${labels.photos} ${current + 1}`;
       img.hidden = true;
       img.decoding = "async";
-      img.onload = () => { if (attempt !== request || !viewer.open) return; img.hidden = false; status.hidden = true; stage.setAttribute("aria-busy", "false"); };
-      img.onerror = () => { if (attempt !== request || !viewer.open) return; img.hidden = true; status.textContent = labels.unavailablePhoto; stage.setAttribute("aria-busy", "false"); };
+      img.onload = () => { if (attempt !== request || !viewer.open) return; img.hidden = false; preview.remove(); status.hidden = true; stage.setAttribute("aria-busy", "false"); };
+      img.onerror = () => { if (attempt !== request || !viewer.open) return; originalFailed = true; img.hidden = true; status.textContent = !preview.hidden ? (labels.unavailableOriginal || labels.unavailablePhoto) : labels.unavailablePhoto; stage.setAttribute("aria-busy", "false"); };
       stage.append(img);
       if (text(photo.src)) img.src = photo.src;
       else img.onerror();
