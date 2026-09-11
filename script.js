@@ -288,7 +288,8 @@
 
   function setupHome() {
     const heroTitle = text(config.hero?.title), heroBody = text(config.hero?.body);
-    $("#hero").hidden = !heroTitle && !heroBody;
+    $("#hero").hidden = !heroTitle && !heroBody && !config.hero?.reserveSpace;
+    $("#hero").classList.toggle("reserved-copy", !heroTitle && !heroBody && !!config.hero?.reserveSpace);
     $("#hero-title").textContent = heroTitle;
     $("#hero-title").hidden = !heroTitle;
     $("#hero-body").textContent = heroBody;
@@ -301,24 +302,33 @@
   }
 
   function setupOpening() {
-    const dialog = $("#parcel-dialog"), replay = $("#parcel-replay");
+    const dialog = $("#parcel-dialog");
     if (!config.opening?.enabled || typeof dialog?.showModal !== "function") return;
     const openButton = $("#parcel-open"), hint = $("#parcel-hint");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    // Scope the session flag to this site's directory, including Pages subpaths.
+    // Persist first-visit state per site directory, including Pages subpaths.
     const key = `parcel-opened:v1:${new URL(".", window.location.href).pathname}`;
     let opening = false, finishTimer = null;
-    $("#parcel-heading").textContent = siteName || labels.home;
-    $(".parcel-inside-name").textContent = siteName || labels.home;
+    const title = text(config.opening.title), body = text(config.opening.body);
+    $("#parcel-heading").textContent = title;
+    $("#parcel-heading").hidden = !title;
+    $("#opening-body").textContent = body;
+    $("#opening-body").hidden = !body;
+    $("#opening-copy").hidden = !title && !body && !config.opening.reserveSpace;
+    $("#opening-copy").classList.toggle("reserved-copy", !title && !body && !!config.opening.reserveSpace);
+    dialog.setAttribute("aria-label", labels.openParcel);
+    function remember() {
+      try { localStorage.setItem(key, "yes"); } catch { /* Storage may be blocked. */ }
+      try { sessionStorage.setItem(key, "yes"); } catch { /* Optional fallback. */ }
+    }
     openButton.setAttribute("aria-label", labels.openParcel);
-    replay.hidden = false;
     const controller = modal(dialog, $("#parcel-skip"), () => {
       clearTimeout(finishTimer);
       opening = false;
       dialog.classList.remove("is-unwrapping");
       openButton.removeAttribute("aria-disabled");
       hint.textContent = labels.openParcel;
-      try { sessionStorage.setItem(key, "yes"); } catch { /* Storage is optional. */ }
+      remember();
     }, () => {});
     openModals.push(controller);
     function show(source) {
@@ -336,13 +346,15 @@
       // The bounded timer also completes when transition events aren't delivered.
       finishTimer = setTimeout(controller.close, 1450);
     });
-    replay.addEventListener("click", () => show(replay));
     reduced.addEventListener("change", () => { if (opening && reduced.matches) controller.close(); });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden && opening) controller.close();
     });
     let seen = false;
-    try { seen = sessionStorage.getItem(key) === "yes"; } catch { /* file:// or private mode */ }
+    try { seen = localStorage.getItem(key) === "yes"; } catch { /* Try session fallback. */ }
+    try { seen = seen || sessionStorage.getItem(key) === "yes"; } catch { /* Both stores may be blocked. */ }
+    // Migrate earlier session-only visits, and record on display to cover reloads.
+    remember();
     if (!seen) show($("#main"));
   }
 

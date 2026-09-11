@@ -2,11 +2,12 @@
 window.SITE_CONTENT = {
   pageTitle: "Eleanor",
   hero: {
-    title: "Eleanor",
-    body: ""
+    title: "",
+    body: "",
+    reserveSpace: true
   },
-  // 每个标签页会话首次进入首页时展示；可在首页重播。
-  opening: { enabled: true },
+  // 同一浏览器仅首次展示；开场文案留空，等确认后填写。
+  opening: { enabled: true, title: "", body: "", reserveSpace: true },
   audio: {
     song: { title: "", src: "assets/audio/song.mp3" }
   },
@@ -35,7 +36,7 @@ window.SITE_CONTENT = {
   ],
   labels: {
     openParcel: "轻触拆开包裹", openingParcel: "正在拆开…",
-    skipOpening: "跳过开场", replayOpening: "重播开场",
+    skipOpening: "跳过开场",
     home: "首页", album: "相册", openAlbum: "打开相册",
     message: "语音贺卡", music: "音乐", photos: "照片",
     play: "播放", pause: "暂停", replay: "重新播放", retry: "重试",
