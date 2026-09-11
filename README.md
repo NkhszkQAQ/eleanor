@@ -47,3 +47,7 @@ python3 -m http.server 8080 --bind 127.0.0.1
 ## 验证与兼容范围
 
 本轮重设计的实际执行结果见 `VERIFICATION.md`。推荐使用支持原生 `<dialog>` 的现代 Chrome、Edge、Safari 或 Firefox。最终个人素材替换后应重新检查；浏览器响应式测试不等同于真机验收。
+
+## 蝴蝶结来源
+
+开场蝴蝶结采用 Microsoft Fluent UI Emoji 的 Ribbon SVG（MIT），配色与分层解开动作已适配本网站。源码内嵌在 HTML 中，无外部图标服务或运行时依赖。来源及修改说明见 `THIRD_PARTY_NOTICES.md`，许可证见 `licenses/fluentui-emoji-MIT.txt`。
