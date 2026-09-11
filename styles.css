@@ -275,26 +275,34 @@ html[data-input="keyboard"] button:active { transform: none; }
 .parcel-heading { font: 500 clamp(2rem, 6vw, 3.5rem)/1.2 var(--serif); overflow-wrap: anywhere; }
 .parcel-open { display: block; width: min(100%, 29rem); margin: clamp(2rem, 7vh, 4rem) auto 2rem; padding: 2rem 1rem; border: 0; background: transparent; isolation: isolate; }
 .parcel-open:active:not(:disabled) { transform: none; }
-.parcel-scene { display: block; position: relative; width: 100%; aspect-ratio: 1.48; perspective: 1100px; }
+.parcel-scene { display: block; position: relative; width: 100%; aspect-ratio: 1.4; perspective: 1100px; transform: rotate(-3deg); }
 .parcel-inside { position: absolute; inset: 0; display: grid; place-items: center; padding: 1rem; border: 1px solid var(--line); background: #fffcf5; box-shadow: 0 12px 35px #7156381a; }
-.parcel-inside-name { font: 500 clamp(1.5rem, 5vw, 2.8rem)/1.2 var(--serif); overflow-wrap: anywhere; }
-.parcel-flap { position: absolute; background-color: #d7bd97; background-image: repeating-linear-gradient(8deg, #977d5610 0 1px, transparent 1px 4px); border: 1px solid #bfa47f; backface-visibility: hidden; transition: transform 650ms var(--ease-out) 220ms, opacity 500ms var(--ease-out) 400ms; }
+.parcel-flap { position: absolute; background-color: #e7d6c5; background-image: radial-gradient(#ab8c6810 .6px, transparent .6px); background-size: 3px 3px; border: 1px solid #cbb7a233; backface-visibility: hidden; transition: transform 650ms var(--ease-out) 220ms, opacity 500ms var(--ease-out) 400ms; }
 .parcel-left, .parcel-right { top: 0; bottom: 0; width: 51%; }
-.parcel-left { left: 0; transform-origin: left center; background-color: #ceb18a; }
-.parcel-right { right: 0; transform-origin: right center; }
+.parcel-left { left: 0; transform-origin: left center; background-color: #e3d0bc; border-radius: 5px 0 0 5px; }
+.parcel-right { right: 0; transform-origin: right center; border-radius: 0 5px 5px 0; }
 .parcel-top, .parcel-bottom { inset: 0; }
-.parcel-top { clip-path: polygon(0 0, 100% 0, 50% 55%); transform-origin: center top; background-color: #e2cba9; }
-.parcel-bottom { clip-path: polygon(0 100%, 50% 44%, 100% 100%); transform-origin: center bottom; background-color: #d8bc97; }
-.parcel-ribbon { position: absolute; background: #8d4636; box-shadow: inset 0 0 0 2px #bc82754d; transition: transform 420ms var(--ease-out), opacity 250ms var(--ease-out) 80ms; }
+.parcel-top { clip-path: polygon(0 0, 100% 0, 50% 55%); transform-origin: center top; background-color: #eee0ce; }
+.parcel-bottom { clip-path: polygon(0 100%, 50% 44%, 100% 100%); transform-origin: center bottom; background-color: #e9d8c5; }
+.parcel-ribbon { position: absolute; background: linear-gradient(90deg, #bb8176, #d3a398 45%, #bd8379); box-shadow: inset 0 0 0 1px #a9706540; transition: transform 420ms var(--ease-out), opacity 250ms var(--ease-out) 80ms; }
 .parcel-ribbon-v { top: 0; bottom: 0; left: calc(50% - .7rem); width: 1.4rem; }
 .parcel-ribbon-h { left: 0; right: 0; top: calc(50% - .7rem); height: 1.4rem; }
-.parcel-seal { position: absolute; left: calc(50% - 1.7rem); top: calc(50% - 1.7rem); display: grid; place-items: center; width: 3.4rem; height: 3.4rem; color: #f8e5c8; background: #954e3b; border: 4px solid #aa6552; border-radius: 50%; box-shadow: 0 3px 5px #5d311c33; transition: transform 300ms var(--ease-out), opacity 200ms var(--ease-out); }
-.parcel-seal svg { width: 1.25rem; height: 1.25rem; }
+.parcel-bow { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.bow-loop { position: absolute; width: 3.9rem; height: 2.4rem; top: -2rem; border: .65rem solid #c59287; box-shadow: inset 0 1px 2px #77554a30, 0 2px 3px #77554a20; transition: transform 380ms var(--ease-out), opacity 250ms var(--ease-out) 80ms; }
+.bow-loop-left { right: -.1rem; border-radius: 65% 55% 20% 55%; transform: rotate(22deg); transform-origin: right bottom; }
+.bow-loop-right { left: -.1rem; border-radius: 55% 65% 55% 20%; transform: rotate(-22deg); transform-origin: left bottom; }
+.bow-tail { position: absolute; top: -.1rem; width: 1.1rem; height: 3.5rem; background: linear-gradient(90deg, #ba8176, #d3a398, #c28b80); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%); transform-origin: center top; transition: transform 380ms var(--ease-out), opacity 250ms var(--ease-out) 80ms; }
+.bow-tail-left { right: -.1rem; transform: rotate(23deg); }
+.bow-tail-right { left: -.1rem; transform: rotate(-23deg); }
+.bow-knot { position: absolute; left: -.65rem; top: -.55rem; width: 1.3rem; height: 1.1rem; border-radius: 35%; background: linear-gradient(90deg, #b77e72, #d4a599 40%, #ba8177); box-shadow: 0 2px 3px #77554a26; transition: transform 280ms var(--ease-out), opacity 200ms var(--ease-out); }
 .parcel-hint { color: var(--muted); font-size: .875rem; }
 .parcel-skip { margin-top: 1rem; color: var(--muted); }
-.parcel-replay { display: block; margin: 1.5rem auto 0; color: var(--muted); }
 .parcel-dialog.is-unwrapping { opacity: 0; transition: opacity 250ms var(--ease-out) 1150ms; }
-.is-unwrapping .parcel-seal { transform: translateY(1.5rem) rotate(15deg); opacity: 0; }
+.is-unwrapping .bow-knot { transform: translateY(.6rem); opacity: 0; }
+.is-unwrapping .bow-loop-left { transform: translateX(-2rem) rotate(-12deg); opacity: 0; }
+.is-unwrapping .bow-loop-right { transform: translateX(2rem) rotate(12deg); opacity: 0; }
+.is-unwrapping .bow-tail-left { transform: translate(-1.5rem, 1rem) rotate(40deg); opacity: 0; }
+.is-unwrapping .bow-tail-right { transform: translate(1.5rem, 1rem) rotate(-40deg); opacity: 0; }
 .is-unwrapping .parcel-ribbon-v { transform: translateY(-35%); opacity: 0; }
 .is-unwrapping .parcel-ribbon-h { transform: translateX(35%); opacity: 0; }
 .is-unwrapping .parcel-top { transform: rotateX(110deg); opacity: 0; }
@@ -308,8 +316,15 @@ html[data-input="keyboard"] button:active { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .parcel-dialog.is-unwrapping { opacity: 1; }
-  .is-unwrapping .parcel-flap, .is-unwrapping .parcel-ribbon, .is-unwrapping .parcel-seal { transform: none; }
+  .is-unwrapping .parcel-flap, .is-unwrapping .parcel-ribbon, .is-unwrapping .bow-loop, .is-unwrapping .bow-tail, .is-unwrapping .bow-knot { transform: none; }
 }
 .parcel-dialog.is-unwrapping::backdrop { opacity: 0; transition: opacity 250ms var(--ease-out) 1150ms; }
 /* Programmatic entry focus stays quiet on touch; Tab restores the normal ring. */
 html:not([data-input="keyboard"]) .parcel-open:focus-visible { outline: none; }
+
+/* Empty copy regions are intentional space; text will be supplied by the owner. */
+.hero.reserved-copy { min-height: clamp(5rem, 12vw, 8rem); padding: 0; }
+.opening-copy.reserved-copy { min-height: clamp(3rem, 9vw, 5rem); }
+.opening-copy p { margin-top: 1rem; color: var(--muted); white-space: pre-line; overflow-wrap: anywhere; }
+.parcel-inside { border-radius: 5px; box-shadow: 2px 5px 0 #cfb9a338, 0 12px 35px #71563815; }
+@media (max-height: 500px) { .opening-copy.reserved-copy { min-height: 1rem; } }

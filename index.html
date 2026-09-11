@@ -29,19 +29,19 @@
         <span class="entry-label"><span data-label="album">相册</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
       </a>
     </section>
-    <footer class="home-music"><div id="music-player" class="music-mini"></div><button id="parcel-replay" class="text-button parcel-replay" type="button" hidden data-label="replayOpening">重播开场</button></footer>
+    <footer class="home-music"><div id="music-player" class="music-mini"></div></footer>
     <noscript>请启用 JavaScript 以使用播放器和照片查看器。</noscript>
   </main>
-  <dialog id="parcel-dialog" class="parcel-dialog" aria-labelledby="parcel-heading" aria-describedby="parcel-hint">
+  <dialog id="parcel-dialog" class="parcel-dialog" aria-label="拆开包裹" aria-describedby="parcel-hint">
     <div class="parcel-content">
-      <h2 id="parcel-heading" class="parcel-heading"></h2>
+      <header id="opening-copy" class="opening-copy"><h2 id="parcel-heading" class="parcel-heading" hidden></h2><p id="opening-body" hidden></p></header>
       <button id="parcel-open" class="parcel-open" type="button" aria-label="拆开包裹">
         <span class="parcel-scene" aria-hidden="true">
-          <span class="parcel-inside"><span class="parcel-inside-name"></span></span>
+          <span class="parcel-inside"></span>
           <span class="parcel-flap parcel-left"></span><span class="parcel-flap parcel-right"></span>
           <span class="parcel-flap parcel-bottom"></span><span class="parcel-flap parcel-top"></span>
           <span class="parcel-ribbon parcel-ribbon-v"></span><span class="parcel-ribbon parcel-ribbon-h"></span>
-          <span class="parcel-seal"><svg viewBox="0 0 24 24"><path d="M3 8h18v13H3zM2 5h20v4H2zM12 5v16M12 5C3 5 5-3 12 5Zm0 0c9 0 7-8 0 0Z"/></svg></span>
+          <span class="parcel-bow"><span class="bow-loop bow-loop-left"></span><span class="bow-loop bow-loop-right"></span><span class="bow-tail bow-tail-left"></span><span class="bow-tail bow-tail-right"></span><span class="bow-knot"></span></span>
         </span>
       </button>
       <p id="parcel-hint" class="parcel-hint" data-label="openParcel">轻触拆开包裹</p>
