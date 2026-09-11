@@ -35,12 +35,24 @@ window.SITE_CONTENT = {
   photoBatchSize: 24,
   // 增删对象即可增减照片；alt 与 caption 仅填写你提供的真实内容。
   photos: [
-    { src: "assets/photos/01.jpg", alt: "", caption: "" },
-    { src: "assets/photos/02.jpg", alt: "", caption: "" },
-    { src: "assets/photos/03.jpg", alt: "", caption: "" },
-    { src: "assets/photos/04.jpg", alt: "", caption: "" },
-    { src: "assets/photos/05.jpg", alt: "", caption: "" },
-    { src: "assets/photos/06.jpg", alt: "", caption: "" }
+    { src: "assets/photos/01.jpg", width: 1280, height: 960, alt: "", caption: "" },
+    { src: "assets/photos/02.jpg", width: 1024, height: 1366, alt: "", caption: "" },
+    { src: "assets/photos/03.jpg", width: 1024, height: 1366, alt: "", caption: "" },
+    { src: "assets/photos/04.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/05.jpg", width: 1707, height: 1280, alt: "", caption: "" },
+    { src: "assets/photos/06.jpg", width: 865, height: 1653, alt: "", caption: "" },
+    { src: "assets/photos/07.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/08.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/09.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/10.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/11.jpg", width: 960, height: 1280, alt: "", caption: "" },
+    { src: "assets/photos/12.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/13.jpg", width: 4032, height: 3024, alt: "", caption: "" },
+    { src: "assets/photos/14.jpg", width: 4032, height: 3024, alt: "", caption: "" },
+    { src: "assets/photos/15.jpg", width: 3024, height: 4032, alt: "", caption: "" },
+    { src: "assets/photos/16.jpg", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/17.jpg", width: 1440, height: 1080, alt: "", caption: "" },
+    { src: "assets/photos/18.jpg", width: 1279, height: 1706, alt: "", caption: "" }
   ],
   labels: {
     openParcel: "轻触拆开包裹", openingParcel: "正在拆开…",

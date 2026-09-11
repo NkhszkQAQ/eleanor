@@ -492,7 +492,7 @@
         button.type = "button";
         button.setAttribute("aria-label", `${labels.viewPhoto} ${index + 1}`);
         button.setAttribute("aria-haspopup", "dialog");
-        button.innerHTML = `<span class="photo-window"><span class="photo-placeholder" aria-hidden="true">${icon("photo")}<span></span></span></span><span class="photo-bottom"><span class="photo-index" aria-hidden="true">${number(index + 1)}</span><span aria-hidden="true">↗</span></span>`;
+        button.innerHTML = `<span class="photo-pin" aria-hidden="true"></span><span class="photo-window"><span class="photo-placeholder" aria-hidden="true">${icon("photo")}<span></span></span></span><span class="photo-bottom"><span class="photo-index" aria-hidden="true">${number(index + 1)}</span><span aria-hidden="true">↗</span></span>`;
         const window = $(".photo-window", button);
         const placeholder = $(".photo-placeholder", button);
         $("span", placeholder).textContent = labels.loading;

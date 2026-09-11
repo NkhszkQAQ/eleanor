@@ -1,0 +1,146 @@
+[
+  {
+    "src": "assets/photos/01.jpg",
+    "originalName": "微信图片_20260905021625_1_1316.jpg",
+    "width": 1280,
+    "height": 960,
+    "bytes": 74452,
+    "sha256": "0c02167ab50e8d1285205c24662c596e07ff03b4257f4e45c60aded0078f0924"
+  },
+  {
+    "src": "assets/photos/02.jpg",
+    "originalName": "微信图片_20260905021625_2_1316.jpg",
+    "width": 1024,
+    "height": 1366,
+    "bytes": 139861,
+    "sha256": "1e9c5be05eadb9b57f88dae9258ebe42bccf0ef2cad11c1da8c9bc7af3b25417"
+  },
+  {
+    "src": "assets/photos/03.jpg",
+    "originalName": "微信图片_20260905021626_3_1316.jpg",
+    "width": 1024,
+    "height": 1366,
+    "bytes": 137511,
+    "sha256": "66f9117600f1d0bac79f4b2d34d30dc556293addb6c604da5f89682da1f6dc24"
+  },
+  {
+    "src": "assets/photos/04.jpg",
+    "originalName": "微信图片_20260905021627_4_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 361697,
+    "sha256": "7510ed12b323f64cf33b0e73b4f5d9770de58405fee193e2a0a153dff20883da"
+  },
+  {
+    "src": "assets/photos/05.jpg",
+    "originalName": "微信图片_20260905021628_5_1316.jpg",
+    "width": 1707,
+    "height": 1280,
+    "bytes": 211082,
+    "sha256": "72c9a96bc57b9e15a4daed0d6ddc48ab299b90f08348f52541dbcaed8c1b42c8"
+  },
+  {
+    "src": "assets/photos/06.jpg",
+    "originalName": "微信图片_20260905021630_6_1316.jpg",
+    "width": 865,
+    "height": 1653,
+    "bytes": 136380,
+    "sha256": "772055fd220f7042c01b878090f8dd5f65591c3f5820948620de2aff93499346"
+  },
+  {
+    "src": "assets/photos/07.jpg",
+    "originalName": "微信图片_20260905123244_9_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 167397,
+    "sha256": "451e9ba23b550a28b4cef2de941aa0eb6d75e69383c228189c671c5cc1bc5330"
+  },
+  {
+    "src": "assets/photos/08.jpg",
+    "originalName": "微信图片_20260905123251_10_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 245645,
+    "sha256": "12e3667af5af130375713530d9c39a5b8ab670c166337c4769a1b23181113aa7"
+  },
+  {
+    "src": "assets/photos/09.jpg",
+    "originalName": "微信图片_20260905123252_11_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 262945,
+    "sha256": "a7efea81981423b2aecd496daf7030e97b4e223bbe9b9fbc36f748ea798dfa1f"
+  },
+  {
+    "src": "assets/photos/10.jpg",
+    "originalName": "微信图片_20260905123253_12_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 181109,
+    "sha256": "26d2f302723c4fdeca2a3ea9bc3a2499bed0754e4f61d408b527ab8d5e3f8c3e"
+  },
+  {
+    "src": "assets/photos/11.jpg",
+    "originalName": "微信图片_20260910012019_45_1316.jpg",
+    "width": 960,
+    "height": 1280,
+    "bytes": 125460,
+    "sha256": "3e5d79009a777050674addb8cdf24352685c28452e7fdd76bb9f79a433a4b0f8"
+  },
+  {
+    "src": "assets/photos/12.jpg",
+    "originalName": "微信图片_20260910012205_46_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 233935,
+    "sha256": "3607d8ba5edfb0dff9eb6f8ea67b60f8ed006c96175ad8c21105cf13b0e5c8b9"
+  },
+  {
+    "src": "assets/photos/13.jpg",
+    "originalName": "微信图片_20260910012233_47_1316.jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 3142724,
+    "sha256": "254c315a78dd424c897b952269879efb3a90f7981c33fb97b9815ab368859d05"
+  },
+  {
+    "src": "assets/photos/14.jpg",
+    "originalName": "微信图片_20260910012236_48_1316.jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 3488528,
+    "sha256": "f6110f3e406e6f2474a32075f5f887f7b037797b4f079820f4be1e57221f1efd"
+  },
+  {
+    "src": "assets/photos/15.jpg",
+    "originalName": "微信图片_20260910012437_49_1316.jpg",
+    "width": 3024,
+    "height": 4032,
+    "bytes": 2598444,
+    "sha256": "946bea50bc2ecb5fd6634216ea1114af29187ac70963bb64a21781cd7e1fd5fc"
+  },
+  {
+    "src": "assets/photos/16.jpg",
+    "originalName": "微信图片_20260910012438_50_1316.jpg",
+    "width": 1280,
+    "height": 1707,
+    "bytes": 356827,
+    "sha256": "eb23da9544d387a1e653d33ec9def3445e07d4cb79a95573643ac41a3e219733"
+  },
+  {
+    "src": "assets/photos/17.jpg",
+    "originalName": "微信图片_20260910012439_51_1316.jpg",
+    "width": 1440,
+    "height": 1080,
+    "bytes": 420349,
+    "sha256": "2bdb33c96f43c2ea49cb9556121da5f44c6e3d335ad6020715d07b9dcc03e1c8"
+  },
+  {
+    "src": "assets/photos/18.jpg",
+    "originalName": "微信图片_20260910012740_63_1316.jpg",
+    "width": 1279,
+    "height": 1706,
+    "bytes": 159769,
+    "sha256": "4d8c00da94b6705c4c684c5156deee553c1193f39a1eaa7a7496a5e5de380460"
+  }
+]
