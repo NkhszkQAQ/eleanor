@@ -307,7 +307,10 @@
     const openButton = $("#parcel-open"), hint = $("#parcel-hint");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     // Persist first-visit state per site directory, including Pages subpaths.
-    const key = `parcel-opened:v1:${new URL(".", window.location.href).pathname}`;
+    const directory = new URL(".", window.location.href).pathname;
+    const key = `parcel-opened:v1:${directory}`;
+    // The Pages repository was renamed; keep existing visitors past the opening.
+    const visitKeys = directory === "/eleanor/" ? [key, "parcel-opened:v1:/memorial-site/"] : [key];
     let opening = false, finishTimer = null, loadTimer = null;
     let artReady = false, paperReady = false;
     const title = text(config.opening.title), body = text(config.opening.body);
@@ -382,8 +385,8 @@
       if (document.hidden && opening) controller.close();
     });
     let seen = false;
-    try { seen = localStorage.getItem(key) === "yes"; } catch { /* Try session fallback. */ }
-    try { seen = seen || sessionStorage.getItem(key) === "yes"; } catch { /* Both stores may be blocked. */ }
+    try { seen = visitKeys.some((visitKey) => localStorage.getItem(visitKey) === "yes"); } catch { /* Try session fallback. */ }
+    try { seen = seen || visitKeys.some((visitKey) => sessionStorage.getItem(visitKey) === "yes"); } catch { /* Both stores may be blocked. */ }
     // Migrate earlier session-only visits, and record on display to cover reloads.
     remember();
     if (!seen) show($("#main"));
