@@ -295,8 +295,55 @@
     $("#hero-body").hidden = !heroBody;
     $("#voice-entry-count").textContent = number(voices.length);
     $(".letter-entry").setAttribute("aria-label", `${labels.openVoice} · ${voices.length}`);
+    setupOpening();
     $("#album-entry-count").textContent = number(photos.length);
     $(".album-entry").setAttribute("aria-label", `${labels.openAlbum} · ${photos.length}`);
+  }
+
+  function setupOpening() {
+    const dialog = $("#parcel-dialog"), replay = $("#parcel-replay");
+    if (!config.opening?.enabled || typeof dialog?.showModal !== "function") return;
+    const openButton = $("#parcel-open"), hint = $("#parcel-hint");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Scope the session flag to this site's directory, including Pages subpaths.
+    const key = `parcel-opened:v1:${new URL(".", window.location.href).pathname}`;
+    let opening = false, finishTimer = null;
+    $("#parcel-heading").textContent = siteName || labels.home;
+    $(".parcel-inside-name").textContent = siteName || labels.home;
+    openButton.setAttribute("aria-label", labels.openParcel);
+    replay.hidden = false;
+    const controller = modal(dialog, $("#parcel-skip"), () => {
+      clearTimeout(finishTimer);
+      opening = false;
+      dialog.classList.remove("is-unwrapping");
+      openButton.removeAttribute("aria-disabled");
+      hint.textContent = labels.openParcel;
+      try { sessionStorage.setItem(key, "yes"); } catch { /* Storage is optional. */ }
+    }, () => {});
+    openModals.push(controller);
+    function show(source) {
+      controller.open(source);
+      openButton.focus({ preventScroll: true });
+    }
+    openButton.addEventListener("click", (event) => {
+      if (opening) return;
+      // Keyboard/assistive activation and reduced motion reveal the home instantly.
+      if (reduced.matches || event.detail === 0) { controller.close(); return; }
+      opening = true;
+      openButton.setAttribute("aria-disabled", "true");
+      hint.textContent = labels.openingParcel;
+      dialog.classList.add("is-unwrapping");
+      // The bounded timer also completes when transition events aren't delivered.
+      finishTimer = setTimeout(controller.close, 1450);
+    });
+    replay.addEventListener("click", () => show(replay));
+    reduced.addEventListener("change", () => { if (opening && reduced.matches) controller.close(); });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && opening) controller.close();
+    });
+    let seen = false;
+    try { seen = sessionStorage.getItem(key) === "yes"; } catch { /* file:// or private mode */ }
+    if (!seen) show($("#main"));
   }
 
   function setupPhotos() {
