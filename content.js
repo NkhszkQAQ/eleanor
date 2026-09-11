@@ -14,9 +14,9 @@ window.SITE_CONTENT = {
   audio: {
     song: {
       title: "天使にふれたよ!", credit: "椎名モンブラン",
-      src: "assets/audio/song.mp3", volume: 0.2, playAfterOpening: true,
+      src: "assets/audio/song-stream.mp3", volume: 0.2, playAfterOpening: true,
       // Measured from the supplied MP3; update or remove when replacing the file.
-      metadata: { src: "assets/audio/song.mp3", duration: 182.07345 }
+      metadata: { src: "assets/audio/song-stream.mp3", duration: 182.073469 }
     }
   },
   // 九个人的录音；姓名与寄语默认留空，仅填写真实内容。
@@ -31,28 +31,28 @@ window.SITE_CONTENT = {
     { name: "", note: "", src: "assets/audio/voices/08.mp3" },
     { name: "", note: "", src: "assets/audio/voices/09.mp3" }
   ],
-  // 照片不设张数上限；每批追加 24 张，原图按需懒加载。
+  // 照片不设张数上限；每批追加 24 张，预览图按需懒加载，点击查看原图。
   photoBatchSize: 24,
   // 增删对象即可增减照片；alt 与 caption 仅填写你提供的真实内容。
   photos: [
-    { src: "assets/photos/01.jpg", width: 1280, height: 960, alt: "", caption: "" },
-    { src: "assets/photos/02.jpg", width: 1024, height: 1366, alt: "", caption: "" },
-    { src: "assets/photos/03.jpg", width: 1024, height: 1366, alt: "", caption: "" },
-    { src: "assets/photos/04.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/05.jpg", width: 1707, height: 1280, alt: "", caption: "" },
-    { src: "assets/photos/06.jpg", width: 865, height: 1653, alt: "", caption: "" },
-    { src: "assets/photos/07.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/08.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/09.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/10.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/11.jpg", width: 960, height: 1280, alt: "", caption: "" },
-    { src: "assets/photos/12.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/13.jpg", width: 4032, height: 3024, alt: "", caption: "" },
-    { src: "assets/photos/14.jpg", width: 4032, height: 3024, alt: "", caption: "" },
-    { src: "assets/photos/15.jpg", width: 3024, height: 4032, alt: "", caption: "" },
-    { src: "assets/photos/16.jpg", width: 1280, height: 1707, alt: "", caption: "" },
-    { src: "assets/photos/17.jpg", width: 1440, height: 1080, alt: "", caption: "" },
-    { src: "assets/photos/18.jpg", width: 1279, height: 1706, alt: "", caption: "" }
+    { src: "assets/photos/01.jpg", preview: "assets/photos/previews/01.webp", width: 1280, height: 960, alt: "", caption: "" },
+    { src: "assets/photos/02.jpg", preview: "assets/photos/previews/02.webp", width: 1024, height: 1366, alt: "", caption: "" },
+    { src: "assets/photos/03.jpg", preview: "assets/photos/previews/03.webp", width: 1024, height: 1366, alt: "", caption: "" },
+    { src: "assets/photos/04.jpg", preview: "assets/photos/previews/04.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/05.jpg", preview: "assets/photos/previews/05.webp", width: 1707, height: 1280, alt: "", caption: "" },
+    { src: "assets/photos/06.jpg", preview: "assets/photos/previews/06.webp", width: 865, height: 1653, alt: "", caption: "" },
+    { src: "assets/photos/07.jpg", preview: "assets/photos/previews/07.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/08.jpg", preview: "assets/photos/previews/08.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/09.jpg", preview: "assets/photos/previews/09.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/10.jpg", preview: "assets/photos/previews/10.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/11.jpg", preview: "assets/photos/previews/11.webp", width: 960, height: 1280, alt: "", caption: "" },
+    { src: "assets/photos/12.jpg", preview: "assets/photos/previews/12.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/13.jpg", preview: "assets/photos/previews/13.webp", width: 4032, height: 3024, alt: "", caption: "" },
+    { src: "assets/photos/14.jpg", preview: "assets/photos/previews/14.webp", width: 4032, height: 3024, alt: "", caption: "" },
+    { src: "assets/photos/15.jpg", preview: "assets/photos/previews/15.webp", width: 3024, height: 4032, alt: "", caption: "" },
+    { src: "assets/photos/16.jpg", preview: "assets/photos/previews/16.webp", width: 1280, height: 1707, alt: "", caption: "" },
+    { src: "assets/photos/17.jpg", preview: "assets/photos/previews/17.webp", width: 1440, height: 1080, alt: "", caption: "" },
+    { src: "assets/photos/18.jpg", preview: "assets/photos/previews/18.webp", width: 1279, height: 1706, alt: "", caption: "" }
   ],
   labels: {
     openParcel: "轻触拆开包裹", openingParcel: "正在拆开…",
