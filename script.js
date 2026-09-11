@@ -45,16 +45,22 @@
   function createPlayer(key, settings, mount, variant = "voice") {
     const title = text(settings.title) || (variant === "song" ? labels.music : labels.message);
     const src = text(settings.src);
+    const metadata = settings.metadata;
+    // This is a measured file fact, not an invented live media duration.
+    const knownDuration = variant === "song" && metadata?.src === src && Number.isFinite(metadata.duration) && metadata.duration > 0 ? metadata.duration : NaN;
     const card = document.createElement("section");
     card.className = `player player--${variant}`;
     card.setAttribute("aria-labelledby", `${key}-title`);
     // Markup below is fixed UI only. All configurable text is assigned with textContent.
-    card.innerHTML = `<div class="player-header"><div class="player-art" aria-hidden="true">${icon(variant === "song" ? "song" : "message")}</div><h2 id="${key}-title"></h2></div>
+    card.innerHTML = `<div class="player-header"><div class="player-art" aria-hidden="true">${icon(variant === "song" ? "song" : "message")}</div><div class="player-track-info"><h2 id="${key}-title"></h2><p class="player-credit" hidden></p></div></div>
       <div class="player-controls"><button class="play-button" type="button" aria-pressed="false"></button>
       <div class="timeline"><input class="seek" type="range" min="0" max="0" value="0" step="0.1" disabled>
       <div class="times"><span class="elapsed"></span><span class="duration"></span></div></div></div>
       <p class="player-status" id="${key}-status" role="status"></p>`;
     $("h2", card).textContent = title;
+    const credit = text(settings.credit);
+    $(".player-credit", card).textContent = credit;
+    $(".player-credit", card).hidden = !credit;
     const audio = document.createElement("audio");
     audio.preload = "none";
     card.append(audio);
@@ -98,9 +104,13 @@
     let request = 0;
     let pending = false;
     let failed = false;
+    let hasStarted = false;
     let watchdog = null;
     const clearWatchdog = () => { clearTimeout(watchdog); watchdog = null; };
-    const setStatus = (value) => { status.textContent = value; };
+    const setStatus = (value) => {
+      const resting = variant === "song" ? (audio.ended ? labels.ended : pending ? labels.loading : !audio.paused ? labels.playingAudio : hasStarted ? labels.pausedAudio : labels.readyAudio) : "";
+      status.textContent = value || resting;
+    };
     const validDuration = () => !failed && Number.isFinite(audio.duration) && audio.duration > 0;
     function renderButton() {
       const playing = !audio.paused && !audio.ended;
@@ -113,8 +123,9 @@
     function renderProgress() {
       const available = validDuration();
       const current = failed ? NaN : audio.currentTime;
-      $(".elapsed", card).textContent = available ? formatTime(current) : labels.unknownTime;
-      $(".duration", card).textContent = available ? formatTime(audio.duration) : labels.unknownTime;
+      const preview = !failed && Number.isFinite(knownDuration);
+      $(".elapsed", card).textContent = available ? formatTime(current) : preview ? formatTime(0) : labels.unknownTime;
+      $(".duration", card).textContent = available ? formatTime(audio.duration) : preview ? formatTime(knownDuration) : labels.unknownTime;
       seek.disabled = !available;
       seek.max = available ? String(audio.duration) : "0";
       seek.value = available ? String(Math.min(current, audio.duration)) : "0";
@@ -197,6 +208,7 @@
     }
     audio.addEventListener("play", () => {
       if (activePlayer !== player) { audio.pause(); return; }
+      hasStarted = true;
       players.forEach((other) => { if (other !== player) other.stop(); });
       renderButton();
     });
@@ -204,7 +216,11 @@
       if (output && output.context.state !== "running") return;
       pending = false; clearWatchdog(); setStatus(""); renderButton();
     });
-    audio.addEventListener("pause", () => { pending = false; clearWatchdog(); renderButton(); });
+    audio.addEventListener("pause", () => {
+      pending = false; clearWatchdog();
+      if (!failed && [labels.playingAudio, labels.buffering].includes(status.textContent)) setStatus("");
+      renderButton();
+    });
     audio.addEventListener("ended", () => {
       pending = false;
       if (activePlayer === player) activePlayer = null;
@@ -226,6 +242,7 @@
     });
     renderButton();
     renderProgress();
+    setStatus("");
     if (src) audio.src = src;
     else fail(labels.unavailableAudio);
     return player;
