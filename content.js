@@ -32,6 +32,7 @@ window.SITE_CONTENT = {
     { src: "assets/photos/06.jpg", alt: "", caption: "" }
   ],
   labels: {
+    home: "首页", album: "相册", openAlbum: "打开相册",
     message: "语音贺卡", music: "音乐", photos: "照片",
     play: "播放", pause: "暂停", replay: "重新播放", retry: "重试",
     progress: "播放进度", unknownTime: "--:--",

@@ -25,11 +25,13 @@
   };
 
   const pageType = document.body.dataset.page;
-  document.title = pageType === "voices" ? labels.message : text(config.pageTitle) || labels.photos;
+  const pageLabels = { home: labels.home, voices: labels.message, photos: labels.album };
+  document.title = pageType === "home" ? text(config.pageTitle) || labels.home : pageLabels[pageType];
+  $(".site-mark").setAttribute("aria-label", labels.home);
   $(".skip-link").textContent = labels.skip;
   document.querySelectorAll("[data-label]").forEach((node) => { node.textContent = labels[node.dataset.label]; });
   document.querySelectorAll("[data-nav]").forEach((node) => {
-    node.textContent = node.dataset.nav === "voices" ? labels.message : labels.photos;
+    node.textContent = pageLabels[node.dataset.nav];
     if (node.dataset.nav === pageType) node.setAttribute("aria-current", "page");
   });
   document.addEventListener("keydown", () => { document.documentElement.dataset.input = "keyboard"; });
@@ -231,6 +233,7 @@
   }
   createPlayer("song", config.audio?.song || {}, $("#music-player"), "song");
   const openModals = [];
+  if (pageType === "home") setupHome();
   if (pageType === "photos") setupPhotos();
   if (pageType === "voices") setupVoices();
   window.addEventListener("pagehide", () => { players.forEach((player) => player.stop()); openModals.forEach((item) => item.close()); });
@@ -282,7 +285,7 @@
     });
   }
 
-  function setupPhotos() {
+  function setupHome() {
     const heroTitle = text(config.hero?.title), heroBody = text(config.hero?.body);
     $("#hero").hidden = !heroTitle && !heroBody;
     $("#hero-title").textContent = heroTitle;
@@ -291,10 +294,15 @@
     $("#hero-body").hidden = !heroBody;
     $("#voice-entry-count").textContent = number(voices.length);
     $(".letter-entry").setAttribute("aria-label", `${labels.openVoice} · ${voices.length}`);
+    $("#album-entry-count").textContent = number(photos.length);
+    $(".album-entry").setAttribute("aria-label", `${labels.openAlbum} · ${photos.length}`);
+  }
+
+  function setupPhotos() {
     const grid = $("#photo-grid");
     const loadMore = $("#load-more");
     loadMore.textContent = labels.loadMore;
-    $("#photos-heading").textContent = labels.photos;
+    $("#photos-heading").textContent = labels.album;
     $("#photo-count").textContent = number(photos.length);
     $("#photos-empty").textContent = labels.noPhotos;
     $("#photos-empty").hidden = photos.length > 0;

@@ -73,7 +73,7 @@ h1, h2 { font-weight: 500; overflow-wrap: anywhere; }
 .times { display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); line-height: 1.2; font-variant-numeric: tabular-nums; }
 .player-status { min-height: 1.4rem; font-size: .75rem; color: var(--muted); margin-top: .8rem; margin-left: 3.8rem; overflow-wrap: anywhere; }
 .section-heading { display: flex; align-items: baseline; gap: 1.25rem; margin-bottom: 2.75rem; }
-.section-heading h2 { font: 500 clamp(2.4rem, 5vw, 3.6rem)/1.25 var(--serif); letter-spacing: -.03em; }
+.section-heading h1, .section-heading h2 { font: 500 clamp(2.4rem, 5vw, 3.6rem)/1.25 var(--serif); letter-spacing: -.03em; }
 .section-count { font: italic 1.15rem/1 Georgia, serif; color: var(--accent); }
 .heading-line { height: 1px; flex: 1; background: var(--line); align-self: center; margin-left: .5rem; }
 .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 2.25rem 2rem; padding: .5rem; }
@@ -239,3 +239,29 @@ html[data-input="keyboard"] button:active { transform: none; }
   .photo-button, .envelope-face, .entry-envelope { border-color: #887559; }
   .voice-total { color: #826449; }
 }
+
+/* A shared entrance links to two full documents. The album cover is decorative. */
+.home-page { max-width: 60rem; }
+.home-page .gift-intro { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6rem; padding: 5.5rem 2rem 4rem; align-items: end; }
+.album-entry { display: block; width: 100%; max-width: 26rem; min-width: 0; }
+.album-cover { position: relative; display: grid; place-items: center; aspect-ratio: 1.42; background: #daddce; border: 1px solid #adb29b; border-radius: 2px 7px 7px 2px; box-shadow: 3px 4px 0 #f4efdf, 4px 5px 0 #bbc0a9, 5px 10px 18px #574c3215; transform: rotate(2deg); }
+.album-spine { position: absolute; inset: 0 auto 0 0; width: 9%; background: #b7bea4; border-right: 1px solid #a5ae92; }
+.album-frame { display: grid; place-items: center; width: 39%; aspect-ratio: 1.15; border: 1px solid #9da588; color: #687157; margin-left: 5%; }
+.album-frame svg { width: 42%; height: auto; }
+.album-count { position: absolute; bottom: 9%; right: 9%; font: italic 1rem/1 Georgia, serif; color: #687157; }
+.home-music { border-top: 1px solid var(--line); padding: 2rem 0; }
+.home-music .music-mini { width: min(100%, 23rem); margin-inline: auto; }
+.album-page .photos { padding-top: 3.5rem; }
+@media (hover: hover) and (pointer: fine) {
+  .album-entry { transition: transform 180ms var(--ease-out); }
+  .album-entry:hover { transform: translateY(-3px); }
+}
+@media (max-width: 900px) { .home-page .gift-intro { gap: 3rem; } }
+@media (max-width: 650px) {
+  .site-header { gap: 1rem; flex-wrap: wrap; }
+  .site-header nav { flex-wrap: wrap; gap: .75rem; }
+  .home-page .gift-intro { grid-template-columns: minmax(0, 1fr); gap: 2.75rem; padding: 3rem 1.5rem; }
+  .album-entry { width: min(100%, 22rem); margin-inline: auto; }
+  .album-page .photos { padding-top: 2.5rem; }
+}
+@media (prefers-reduced-motion: reduce) { .album-entry:hover { transform: none; } }

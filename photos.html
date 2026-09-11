@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3eb">
+  <title>语音贺卡 · 音乐 · 照片</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="content.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body data-page="photos">
+  <a class="skip-link" href="#main">跳至内容</a>
+  <header class="site-header">
+    <a class="site-mark" href="index.html" aria-label="首页"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h13v18H5zM11 4h16v19h-5M9 19l3-4 3 3"/></svg></a>
+    <nav aria-label="页面"><a href="index.html" data-nav="home">首页</a><span aria-hidden="true">/</span><a href="voices.html" data-nav="voices">语音贺卡</a><span aria-hidden="true">/</span><a href="photos.html" data-nav="photos">相册</a></nav>
+  </header>
+  <main id="main" class="page album-page" tabindex="-1">
+    <section id="photos" class="photos" aria-labelledby="photos-heading">
+      <div class="section-heading"><h1 id="photos-heading">相册</h1><span id="photo-count" class="section-count" aria-hidden="true"></span><span class="heading-line" aria-hidden="true"></span></div>
+      <div id="photo-grid" class="photo-grid"></div>
+      <p id="photos-empty" class="empty-state" hidden></p>
+      <div class="gallery-bottom"><p id="gallery-progress" class="gallery-progress" role="status"></p><button id="load-more" type="button" class="text-button" hidden>加载更多照片</button></div>
+    </section>
+    <footer class="voice-footer"><a class="back-link" href="index.html"><span aria-hidden="true">←</span><span data-label="home">首页</span></a><div id="music-player" class="music-mini"></div></footer>
+    <noscript>请启用 JavaScript 以使用播放器和照片查看器。</noscript>
+  </main>
+  <dialog id="viewer" class="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-panel">
+      <div class="viewer-toolbar"><h2 id="viewer-title">照片</h2><button id="viewer-close" class="icon-button" type="button" aria-label="关闭图片查看器" autofocus></button></div>
+      <div id="viewer-stage" class="viewer-stage" aria-busy="false"><p id="viewer-status" role="status"></p></div>
+      <div class="viewer-navigation"><button id="viewer-prev" class="icon-button" type="button" aria-label="上一张"></button><p id="viewer-counter" aria-live="polite" aria-atomic="true"></p><button id="viewer-next" class="icon-button" type="button" aria-label="下一张"></button></div>
+      <p id="viewer-caption" class="viewer-caption" hidden></p>
+    </div>
+  </dialog>
+</body>
+</html>
