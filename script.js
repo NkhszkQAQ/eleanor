@@ -56,7 +56,7 @@
       <p class="player-status" id="${key}-status" role="status"></p>`;
     $("h2", card).textContent = title;
     const audio = document.createElement("audio");
-    audio.preload = variant === "song" ? "metadata" : "none";
+    audio.preload = "none";
     card.append(audio);
     mount.append(card);
     const button = $(".play-button", card);
@@ -64,6 +64,37 @@
     const status = $(".player-status", card);
     button.setAttribute("aria-describedby", status.id);
     seek.setAttribute("aria-label", `${title} · ${labels.progress}`);
+    const level = variant === "song" && Number.isFinite(settings.volume) ? Math.max(0, Math.min(1, settings.volume)) : 1;
+    audio.volume = level;
+    let output = null;
+    let silent = false;
+    // GainNode also controls quiet playback on mobile browsers that ignore audio.volume.
+    // Keep file:// on native audio: opaque file origins cannot reliably feed Web Audio.
+    function prepareOutput() {
+      const Context = window.AudioContext || window.webkitAudioContext;
+      if (variant !== "song" || output || !Context || location.protocol === "file:") return;
+      const context = new Context();
+      const gain = context.createGain();
+      gain.gain.value = silent ? 0 : level;
+      const source = context.createMediaElementSource(audio);
+      source.connect(gain);
+      gain.connect(context.destination);
+      output = { context, gain };
+      audio.volume = 1;
+    }
+    function setLevel(quiet, fade = false) {
+      silent = quiet;
+      if (output) {
+        const { context, gain } = output;
+        gain.gain.cancelScheduledValues(context.currentTime);
+        gain.gain.setValueAtTime(quiet || fade ? 0 : level, context.currentTime);
+        if (!quiet && fade) gain.gain.linearRampToValueAtTime(level, context.currentTime + 0.6);
+        audio.muted = false;
+      } else {
+        audio.volume = level;
+        audio.muted = quiet;
+      }
+    }
     let request = 0;
     let pending = false;
     let failed = false;
@@ -109,15 +140,24 @@
     function watchLoading() {
       clearWatchdog();
       watchdog = setTimeout(() => {
-        if (audio.readyState < 3) fail(labels.slowAudio);
+        if (output && output.context.state !== "running") { stop(); setStatus(labels.blockedAudio); }
+        else if (audio.readyState < 3) fail(labels.slowAudio);
       }, 15000);
     }
-    const player = { audio, stop, card, prepare() {
+    const player = { audio, stop, card, play: start, reveal() {
+      if (activePlayer !== player || failed) return;
+      // Playback was unlocked silently by the opening gesture; let the song start here.
+      if (silent) { try { audio.currentTime = 0; } catch { /* Metadata may still be loading. */ } }
+      setLevel(false, true);
+    }, prepare() {
       if (audio.preload === "none") { audio.preload = "metadata"; audio.load(); }
     } };
     players.push(player);
-    button.addEventListener("click", async () => {
+    button.addEventListener("click", () => {
       if (pending || !audio.paused) { stop(); return; }
+      start();
+    });
+    async function start({ silent: quiet = false } = {}) {
       players.forEach((other) => { if (other !== player) other.stop(); });
       activePlayer = player;
       const attempt = ++request;
@@ -133,7 +173,13 @@
       renderButton();
       watchLoading();
       try {
-        await audio.play();
+        silent = quiet;
+        prepareOutput();
+        setLevel(quiet);
+        // Both calls occur within the user gesture, before any await or animation timer.
+        const resume = output ? output.context.resume() : Promise.resolve();
+        const playback = audio.play();
+        await Promise.all([resume, playback]);
         if (attempt !== request || activePlayer !== player) return;
         pending = false;
         clearWatchdog();
@@ -148,13 +194,16 @@
         else { stop(); }
         renderButton();
       }
-    });
+    }
     audio.addEventListener("play", () => {
       if (activePlayer !== player) { audio.pause(); return; }
       players.forEach((other) => { if (other !== player) other.stop(); });
       renderButton();
     });
-    audio.addEventListener("playing", () => { pending = false; clearWatchdog(); setStatus(""); renderButton(); });
+    audio.addEventListener("playing", () => {
+      if (output && output.context.state !== "running") return;
+      pending = false; clearWatchdog(); setStatus(""); renderButton();
+    });
     audio.addEventListener("pause", () => { pending = false; clearWatchdog(); renderButton(); });
     audio.addEventListener("ended", () => {
       pending = false;
@@ -232,7 +281,7 @@
       }
     };
   }
-  createPlayer("song", config.audio?.song || {}, $("#music-player"), "song");
+  const songPlayer = createPlayer("song", config.audio?.song || {}, $("#music-player"), "song");
   const openModals = [];
   if (pageType === "home") setupHome();
   if (pageType === "photos") setupPhotos();
@@ -312,7 +361,7 @@
     // The Pages repository was renamed; keep existing visitors past the opening.
     const visitKeys = directory === "/eleanor/" ? [key, "parcel-opened:v1:/memorial-site/"] : [key];
     let opening = false, finishTimer = null, loadTimer = null;
-    let artReady = false, paperReady = false;
+    let artReady = false, paperReady = false, musicPrepared = false;
     const title = text(config.opening.title), body = text(config.opening.body);
     $("#parcel-heading").textContent = title;
     $("#parcel-heading").hidden = !title;
@@ -333,6 +382,11 @@
       dialog.classList.remove("is-unwrapping");
       openButton.removeAttribute("aria-disabled");
       hint.textContent = labels.openParcel;
+      if (musicPrepared) {
+        if (document.hidden) songPlayer.stop();
+        else songPlayer.reveal();
+        musicPrepared = false;
+      }
       remember();
     }, () => {});
     openModals.push(controller);
@@ -370,9 +424,14 @@
     openButton.addEventListener("click", (event) => {
       if (opening) return;
       // Keyboard/assistive activation and reduced motion reveal the home instantly.
-      if (reduced.matches || event.detail === 0) { controller.close(); return; }
-      if (!artReady) return;
+      const immediate = reduced.matches || event.detail === 0;
+      if (!immediate && !artReady) return;
       opening = true;
+      if (config.audio?.song?.playAfterOpening) {
+        musicPrepared = true;
+        songPlayer.play({ silent: true });
+      }
+      if (immediate) { controller.close(); return; }
       dialog.classList.toggle("is-simple-opening", !paperReady);
       openButton.setAttribute("aria-disabled", "true");
       hint.textContent = labels.openingParcel;

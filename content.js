@@ -12,7 +12,7 @@ window.SITE_CONTENT = {
     artwork: { image: "assets/artwork/parcel-sharp.webp", paper: "assets/artwork/parcel-paper-sharp.webp" }
   },
   audio: {
-    song: { title: "", src: "assets/audio/song.mp3" }
+    song: { title: "", src: "assets/audio/song.mp3", volume: 0.2, playAfterOpening: true }
   },
   // 九个人的录音；姓名与寄语默认留空，仅填写真实内容。
   voices: [
