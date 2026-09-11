@@ -12,7 +12,12 @@ window.SITE_CONTENT = {
     artwork: { image: "assets/artwork/parcel-sharp.webp", paper: "assets/artwork/parcel-paper-sharp.webp" }
   },
   audio: {
-    song: { title: "", src: "assets/audio/song.mp3", volume: 0.2, playAfterOpening: true }
+    song: {
+      title: "天使にふれたよ!", credit: "椎名モンブラン",
+      src: "assets/audio/song.mp3", volume: 0.2, playAfterOpening: true,
+      // Measured from the supplied MP3; update or remove when replacing the file.
+      metadata: { src: "assets/audio/song.mp3", duration: 182.07345 }
+    }
   },
   // 九个人的录音；姓名与寄语默认留空，仅填写真实内容。
   voices: [
@@ -42,7 +47,7 @@ window.SITE_CONTENT = {
     skipOpening: "跳过开场",
     home: "首页", album: "相册", openAlbum: "打开相册",
     message: "语音贺卡", music: "音乐", photos: "照片",
-    play: "播放", pause: "暂停", replay: "重新播放", retry: "重试",
+    play: "播放", pause: "暂停", readyAudio: "点击播放", playingAudio: "正在播放", pausedAudio: "已暂停", replay: "重新播放", retry: "重试",
     progress: "播放进度", unknownTime: "--:--",
     loading: "正在加载…", buffering: "正在缓冲…", ended: "播放结束",
     unavailableAudio: "音频暂不可用", slowAudio: "加载较慢，可重试",
